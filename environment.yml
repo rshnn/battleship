@@ -1,0 +1,25 @@
+name: battleship-td3
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python
+  - jupyterlab>=3
+  - pandas
+  - holoviews
+  - hvplot
+  - param
+  - panel
+  - pip
+  - numpy
+  - pytorch
+  - gym
+  - stable-baselines3
+  - tensorboardx
+  - tensorboard
+  - tqdm
+  - jupyterlab-git
+  - pip:
+    - numpngw

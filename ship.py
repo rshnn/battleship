@@ -26,10 +26,10 @@ class Ship():
         - size : int  -- size of ship (length) 
         - orient : Direction(Enum) -- direction ship body is facing on grid 
         - head_loc : (int, int)  -- location of boat's head on grid 
-        - status : np.array(bool)  -- boolean array, False = hit 
+        - life_points : int -- modifiable parameter for health 
 
         Behaviors 
-        - update_status 
+        - ouch()  --  decrement life_points  
     """
 
     def __init__(self, name='destroyer', size=2, head_loc=(0, 0), 
@@ -45,5 +45,20 @@ class Ship():
         self.orient = orient 
         self.head_loc = head_loc  
 
-        # TODO does this attr need to be here?  
-        self.status = np.ones(shape=size, dtype='?')  
+        self.life_points = size 
+
+
+    def ouch(self): 
+        """
+        Got torpedo'd.  Decrement life  
+        """
+        self.life_points -= 1 
+        return 
+
+
+    def __repr__(self): 
+        return f"Ship({self.name}, size: {self.size}, head: {self.head_loc}, orientation: {self.orient}, lp: {self.life_points})"
+
+
+    def __str__(self): 
+        return self.__repr__() 
