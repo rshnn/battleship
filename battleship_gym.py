@@ -7,8 +7,8 @@ BOARD_DIM = 10
 # reward function parameters  
 REPEATED_PENALTY = 50 
 RADIUS = 3
-PROXIMAL_REWARD = 5 
-SCORE_REWARD = 
+PROXIMAL_REWARD = 20 
+SCORE_REWARD = 2500 
 
 class BattleshipEnvClass(gym.Env):
     
@@ -63,7 +63,7 @@ class BattleshipEnvClass(gym.Env):
         # + reward if low num_torpedos used at end of game (score reward) 
         if self.done: 
             score = self.board.score()
-            normalized_score = score / (self.board_dim**2) 
+            normalized_score = (self.board_dim**2) / score  
             reward += SCORE_REWARD * normalized_score 
 
 
