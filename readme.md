@@ -32,8 +32,7 @@ This solution leverages the idea that future successful hits will be near prior 
 Average game length is 67.202.  
 
 ![lt_histo](images/histogram_less_trivial.png)
-![lt_gif](battleship-less-triv.gif)
-
+![lt_gif](images/battleship-less-triv.gif)
 
 This idea can be further searching only a parody space (half of the board) or by implementing a probabilitic board state, but I only wanted a baseline to compare the RL agent to, so this will be good enough for now.  
 
@@ -71,13 +70,17 @@ This agent did perform properly, but even the best trained agent on this scheme 
 
 ### design 2
 
-The next iteration has a modified output/action space.  I expect more stability in the neural network learning from this small change.  
+The next iteration has a modified output/action space.  I expect more stability in the neural network learning from this small change.  In addition, to further learning stability, I decided to simplify the learning by freezing the battleship locations on the board.  I'm using this iteration to test whether the RL design scheme I am using will actually positive reinforce behaviors that I am trying to get the agent to associate with high reward (proximal search near known hit).  
 
 ```python
 # Action space is index of action for grid.flatten() 
 #   get i, j with i, j = (action % BOARD_DIM, action // BOARD_DIM)
 self.action_space = gym.spaces.Discrete(BOARD_DIM * BOARD_DIM)
 ```
+
+The learning plot for this configuration yielded a better overall pattern.  Note that the policy appears to plateau following 1200 episodes.  This could be due to the frozen board state.  
+
+![rl-learning-sorta](images/rl-learning-sorta.png)
 
 
 ## Future Work
@@ -88,7 +91,4 @@ self.action_space = gym.spaces.Discrete(BOARD_DIM * BOARD_DIM)
 - Build feature to play against an agent AI    
 - Build feature to play 1v1 game and features to pit two AI against each other 
     + Include step_game to walk through the sequence of steps 
-
-
-
 
