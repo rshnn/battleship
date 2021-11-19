@@ -5,10 +5,10 @@ from board import Board
 BOARD_DIM = 10 
 
 # reward function parameters  
-REPEATED_PENALTY = 50 
+REPEATED_PENALTY = -10 
 RADIUS = 3
-PROXIMAL_REWARD = 20 
-SCORE_REWARD = 2500 
+PROXIMAL_REWARD = 10 
+SCORE_REWARD = 1000 
 
 class BattleshipEnvClass(gym.Env):
     
@@ -35,7 +35,7 @@ class BattleshipEnvClass(gym.Env):
 
         if state_prev[action[0], action[1]] != 0: 
             # - reward if torpedoing an already torpedo'd grid space (repeated penalty) 
-            return self.state, -1 * REPEATED_PENALTY, self.done, {}   
+            return self.state, REPEATED_PENALTY, self.done, {}   
 
         ####################
         # ADVANCE ENVIRONMENT  
@@ -52,7 +52,10 @@ class BattleshipEnvClass(gym.Env):
 
         ####################
         # REWARD CALCULATION  
-        reward = 0  
+        reward = -1  
+
+        if hit: 
+            reward = 5
 
         # + reward if next torpedo is near a known hit grid space (proximal reward)
         neighbors = self._neighbors(action[0], action[1], RADIUS, self.board_dim)  
@@ -60,11 +63,10 @@ class BattleshipEnvClass(gym.Env):
             if self.state[neigh[0], neigh[1]]: 
                 reward += PROXIMAL_REWARD
 
-        # + reward if low num_torpedos used at end of game (score reward) 
-        if self.done: 
-            score = self.board.score()
-            normalized_score = (self.board_dim**2) / score  
-            reward += SCORE_REWARD * normalized_score 
+
+        # if self.done: 
+        #     score = self.board.score()  
+        #     reward += SCORE_REWARD * (1 / score)  
 
 
         done = self.done 
