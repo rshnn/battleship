@@ -40,18 +40,20 @@ class Board():
         self.torpedos_used = 0 
 
         if place_ships_random: 
-            self._spawn_ships()
+            self._spawn_ships()  
+        else: 
+            ValueError("Custom ship placement not implemented yet.")
 
         self.vis = vis 
         if vis: 
             self._init_vis(playmode) 
-            # Event hook for mouse clicks
+            # Event hook for mouse clicks 
             self.fig.canvas.mpl_connect('button_press_event', self._button_press)      
 
 
 
 
-    ###
+    ##################
     # Public behaviors 
 
     def torpedo(self, coordinates): 
@@ -134,7 +136,7 @@ class Board():
 
 
 
-    ###
+    ##################
     # Private behaviors 
 
     def _spawn_ships(self, presets='default'):    

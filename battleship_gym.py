@@ -5,13 +5,22 @@ from board import Board
 BOARD_DIM = 10 
 
 # reward function parameters  
+PERSISTENCE_PENALTY = -1 
+HIT_REWARD = 5 
 REPEATED_PENALTY = -10 
 RADIUS = 3
 PROXIMAL_REWARD = 10 
 SCORE_REWARD = 1000 
 
 class BattleshipEnvClass(gym.Env):
-    
+    """ BattleshipEnvClass v1.  
+
+        action_space is a tuple representing grid coordinate to probe next 
+        obs_space is the entire (n x n) grid with discrete values (-1, 0, 1) 
+
+    """
+
+
     def __init__(self):
         
         self.board_dim = BOARD_DIM  
@@ -52,10 +61,10 @@ class BattleshipEnvClass(gym.Env):
 
         ####################
         # REWARD CALCULATION  
-        reward = -1  
+        reward = PERSISTENCE_PENALTY  
 
         if hit: 
-            reward = 5
+            reward = HIT_REWARD
 
         # + reward if next torpedo is near a known hit grid space (proximal reward)
         neighbors = self._neighbors(action[0], action[1], RADIUS, self.board_dim)  
@@ -64,9 +73,9 @@ class BattleshipEnvClass(gym.Env):
                 reward += PROXIMAL_REWARD
 
 
-        # if self.done: 
-        #     score = self.board.score()  
-        #     reward += SCORE_REWARD * (1 / score)  
+        if self.done: 
+            score = self.board.score()  
+            reward += SCORE_REWARD * (1 / score)  
 
 
         done = self.done 

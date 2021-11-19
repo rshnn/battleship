@@ -1,4 +1,4 @@
-name: battleship-td3
+name: battleship-ppo
 
 channels:
   - conda-forge
