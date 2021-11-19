@@ -27,11 +27,16 @@ class Board():
         - check_gameover() -- Check gameover condition (all boats sunken)  
         - ships_afloat_count() --  Returns number of ships current not sunk  
         - print()  -- Prints self.grid as np.array.  Not fancy 
+
+        If using custom ship configuration, import list of ships as the 
+        following into the second parameter of __init__(): 
+          ship_config = [('destroyer', 2), ('submarine', 3), ('cruiser', 3), 
+                         ('battleship', 4), ('carrier', 5)] 
     """
 
 
 
-    def __init__(self, dim:int=10, place_ships_random=True, vis=True, playmode=True): 
+    def __init__(self, dim:int=10, ship_config='default', vis=True, playmode=True): 
 
         self.dim = dim 
         self.grid =  np.zeros(shape=[dim, dim], dtype=np.int32) 
@@ -39,10 +44,7 @@ class Board():
 
         self.torpedos_used = 0 
 
-        if place_ships_random: 
-            self._spawn_ships()  
-        else: 
-            ValueError("Custom ship placement not implemented yet.")
+        self._spawn_ships(presets=ship_config)  
 
         self.vis = vis 
         if vis: 
@@ -120,13 +122,18 @@ class Board():
 
 
     def ships_afloat_count(self): 
-        
+        """ Returns number of ships remaining on the board and total lives left 
+        """
         cnt = 0  
+        total = 0 
+        
         for ship in self.ships: 
             if ship.life_points > 0:  
                 cnt += 1
+                total += ship.life_points 
         
-        return cnt 
+        return cnt, total  
+
 
 
     def print(self): 
@@ -150,14 +157,28 @@ class Board():
             ships = [('destroyer', 2), ('submarine', 3), ('cruiser', 3), 
                      ('battleship', 4), ('carrier', 5)] 
 
-        # TODO implement more ship presets?  
+            for ship in ships: 
+                name, size = ship
+                self._spawn_ship_random(name, size) 
+            return 
 
-        for ship in ships: 
-            name, size = ship
-            self._spawn_ship(name, size) 
+        elif isinstance(presets[0], Ship):
+            ships = presets  
+
+            for ship in ships: 
+                self._spawn_ship_specified(ship)  
+            return 
+
+        else: 
+            ValueError("Input presets into _spawn_ships() is not valid")
+
+    def _spawn_ship_specified(self, ship): 
+
+        self._place_ship_on_grid(ship)  
+        self.ships.append(ship) 
 
 
-    def _spawn_ship(self, name, size, scheme='random'): 
+    def _spawn_ship_random(self, name, size): 
         """ Spawns a ship.  Random position and orientation 
         """
 
@@ -220,6 +241,7 @@ class Board():
         """ Steps coordinate along a provided direction.  Can be confusing.   
         """
 
+        pos = np.array(pos) 
         if orient == Direction.NORTH: 
             return pos + (-1, 0)  
 

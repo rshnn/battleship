@@ -3,11 +3,10 @@
 
 import numpy as np 
 from board import Board 
-from battleship_gym import BattleshipEnvClass 
 
 class RLAgent(): 
 
-    def __init__(self, board, model): 
+    def __init__(self, board, model, gym_env): 
 
         if board is None: 
             self.board = Board() 
@@ -16,7 +15,7 @@ class RLAgent():
 
         self.model = model 
 
-        self.env = BattleshipEnvClass()  
+        self.env = gym_env  
         self.obs = self.env.reset() 
         self.env._overwrite_board(board)  
 
@@ -28,7 +27,7 @@ class RLAgent():
         reward_list = list()
         episode_reward = 0 
 
-        for _ in range(1000): 
+        while True: 
 
             action, _states = self.model.predict(self.obs)  
 

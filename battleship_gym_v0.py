@@ -8,7 +8,7 @@ BOARD_DIM = 10
 PERSISTENCE_PENALTY = -1 
 HIT_REWARD = 5 
 REPEATED_PENALTY = -10 
-RADIUS = 3
+RADIUS = 1
 PROXIMAL_REWARD = 10 
 SCORE_REWARD = 1000 
 
@@ -64,7 +64,7 @@ class BattleshipEnvClass(gym.Env):
         reward = PERSISTENCE_PENALTY  
 
         if hit: 
-            reward = HIT_REWARD
+            reward += HIT_REWARD
 
         # + reward if next torpedo is near a known hit grid space (proximal reward)
         neighbors = self._neighbors(action[0], action[1], RADIUS, self.board_dim)  
@@ -87,7 +87,7 @@ class BattleshipEnvClass(gym.Env):
     
     def reset(self):
 
-        self.board = Board(dim=self.board_dim, place_ships_random=True, vis=False, playmode=False)
+        self.board = Board(dim=self.board_dim, ship_config='default', vis=False, playmode=False)
         self.state = np.zeros((self.board_dim, self.board_dim), dtype=np.int32) 
         self.done = False 
 

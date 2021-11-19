@@ -16,10 +16,31 @@ The game itself consists of a Board object and Ship objects.  The Board stores t
 
 ![battleship interactive](images/battleship_interactive.gif)
 
+## logical agents
+
+### design 1 - brute force
+
+Trivial solution of randomly probing until the game ends.   Average game length is 95.342 turns/torpedos.  
+
+![trivial_histogram](images/histogram_trivial.png)
+
+
+### design 2 - slightly smarter expert system
+
+This solution leverages the idea that future successful hits will be near prior successful hits.  The agent switches between two modes:  searching and hunting.  When searching, it randomly probes for a hit.  Upon hit, it switches to hunting and will search the region around the most recent hit using a stored fringe queue.  Once the fringe is empty, it will return to searching.  This solution comes from [this blogpost](https://www.datagenetics.com/blog/december32011/).   
+
+Average game length is 67.202.  
+
+![lt_histo](images/histogram_less_trivial.png)
+![lt_gif](battleship-less-triv.gif)
+
+
+This idea can be further searching only a parody space (half of the board) or by implementing a probabilitic board state, but I only wanted a baseline to compare the RL agent to, so this will be good enough for now.  
+
 
 ## RL agent and reward scheme
 
-### version 0
+### design 1
 
 The first iteration of the RL agent used this action and observation space: 
 ```python
@@ -48,8 +69,26 @@ This agent did perform properly, but even the best trained agent on this scheme 
 ![ver0-bad](images/ver0-bad.png)  
 ![in play](images/battleship-rl-v0.gif)
 
-### version 1
+### design 2
+
+The next iteration has a modified output/action space.  I expect more stability in the neural network learning from this small change.  
+
+```python
+# Action space is index of action for grid.flatten() 
+#   get i, j with i, j = (action % BOARD_DIM, action // BOARD_DIM)
+self.action_space = gym.spaces.Discrete(BOARD_DIM * BOARD_DIM)
+```
+
 
 ## Future Work
 - New reward schemes 
+- Modify the learning scheme.  
+    + Incrementally increase the complexity of the scenario (one ship small grid, two boats medium grid, etc.)
+    + Provide full knowledge of the board to the agent.  Then restrict the knowledge as performance improves 
 - Build feature to play against an agent AI    
+- Build feature to play 1v1 game and features to pit two AI against each other 
+    + Include step_game to walk through the sequence of steps 
+
+
+
+

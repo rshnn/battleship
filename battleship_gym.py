@@ -47,7 +47,7 @@ class BattleshipEnvClass(gym.Env):
             return self.state, REPEATED_PENALTY, self.done, {}   
 
         ####################
-        # ADVANCE ENVIRONMENT  
+        # ADVANCE ENVIRONMENT -- Produce next state, check done condition   
         hit = self.board.torpedo(action) 
         
         if hit == 0: 
