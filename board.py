@@ -37,6 +37,14 @@ class Board():
 
 
     def __init__(self, dim:int=10, ship_config='default', vis=True, playmode=True): 
+        """ Initializes game board for Battleship 
+              dim - dimension of square grid 
+              ship_config - 'default' for standard ship configuration and random placement.  
+                  Also accepts a list of Ship objects to subvert default placement.  
+              vis - flag for visualization.  Set to False to run headless  
+              playmode - if vis is True, this flag will toggle showing ship locations  
+                  False will display ship locations on the visualization.     
+        """
 
         self.dim = dim 
         self.grid =  np.zeros(shape=[dim, dim], dtype=np.int32) 
@@ -95,11 +103,9 @@ class Board():
             if self.vis: 
                 self._draw_torpedo(coordinates, hit=True)
             
-
             if self.vis and hit_ship.life_points == 0: 
                 self._draw_ship(idx) 
  
-
             return 1 
 
 
@@ -126,7 +132,7 @@ class Board():
         """
         cnt = 0  
         total = 0 
-        
+
         for ship in self.ships: 
             if ship.life_points > 0:  
                 cnt += 1

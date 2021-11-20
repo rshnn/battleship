@@ -84,11 +84,14 @@ The learning plot for this configuration yielded a better overall pattern.  Note
 
 
 ## Future Work
-- New reward schemes 
 - Modify the learning scheme.  
     + Incrementally increase the complexity of the scenario (one ship small grid, two boats medium grid, etc.)
     + Provide full knowledge of the board to the agent.  Then restrict the knowledge as performance improves 
+- New reward schemes   
+- Consider different ways of representing the agent's action and observation spaces 
+    + Use smaller subsection of the board for the board  
+    + Input information about the ships (life remaining, ships left)  
 - Build feature to play against an agent AI    
-- Build feature to play 1v1 game and features to pit two AI against each other 
+- Build feature to play 1 v 1 game and features to pit two AI against each other 
     + Include step_game to walk through the sequence of steps 
-
+- 

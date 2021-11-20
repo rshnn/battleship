@@ -41,19 +41,4 @@ class RLAgent():
                 episode_reward = 0 
                 break 
 
-        return self.board.score() 
-
-
-    def _random_probe(self, debug=False): 
-
-        probe_here = np.random.randint(0, self.board.dim, size=2) 
-        i, j = probe_here
-        if self.agnt_grid[i, j] == 0: 
-            if debug: 
-                print(f"Probing {probe_here}. Selected randomly")
-            self.board.torpedo(probe_here) 
-            self.agnt_grid[i, j] = 1 
-
-
-
-
+        return self.board.score(), episode_reward, reward_list   
