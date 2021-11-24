@@ -2,7 +2,7 @@
 """
 
 import numpy as np 
-from board import Board 
+from battleship  import Board 
 
 
 class TrivialAgent(): 

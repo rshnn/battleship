@@ -1,6 +1,6 @@
 import gym, gym.spaces, gym.utils, gym.utils.seeding
 import numpy as np
-from board import Board 
+from battleship import Board 
 from static_board_v1 import ship_config 
 
 BOARD_DIM = 10 

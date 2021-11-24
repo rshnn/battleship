@@ -2,7 +2,7 @@
 
 Contains static board parameters for BattleshipEnvClass v1 
 """
-from ship import Ship, Direction 
+from battleship import Ship, Direction 
 
 ship_config = [Ship('destroyer', 2,  (9, 2), Direction.NORTH),
                 Ship('submarine',  3,  (7, 6), Direction.SOUTH),

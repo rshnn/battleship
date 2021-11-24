@@ -3,7 +3,7 @@
 
 import numpy as np 
 from collections import deque 
-from board import Board 
+from battleship import Board 
 
 
 class LessTrivialAgent(): 

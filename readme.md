@@ -8,6 +8,9 @@ Inspired by [Practical-RL by Quansight](https://github.com/Quansight/Practical-R
 ## Overview
 This version of Battleship only considers a single player's viewpoint.  This repository provides an implementation of the Battleship board game with interactive and debugging features, an implementation of trivial AI agents (brute force, random search), and an implementation of reinforcement learning to build an agent to effectively play Battleship.  The RL agent's policy was trained using Proximal Policy Optimization (PPO).  
 
+```
+conda env create --file environment.yml
+```
 
 ## Playing the game
 View the `00-game-mechanics` notebook to see how to run the game.  If playing in a jupyter notebook, the `%matplotlib notebook` magic command must be run first.  
@@ -83,6 +86,13 @@ The learning plot for this configuration yielded a better overall pattern.  Note
 ![rl-learning-sorta](images/rl-learning-sorta.png)
 
 
+### design 3
+
+This design focuses on reducing the observation_space's dimensions.  The agent will observe a subgrid (3x3) of the total board and develop a policy to probe a location within this new observation space instead.  This will reduce the input dimension space and allowable output values to simplify the policy neural network learning.  However, there is functionality loss in the agent.  The agent will not be able to scatter random probes around the board when searching and will isntead need to traverse the grid.  
+
+This solution is still under construction.  
+
+
 ## Future Work
 - Modify the learning scheme.  
     + Incrementally increase the complexity of the scenario (one ship small grid, two boats medium grid, etc.)
@@ -94,4 +104,3 @@ The learning plot for this configuration yielded a better overall pattern.  Note
 - Build feature to play against an agent AI    
 - Build feature to play 1 v 1 game and features to pit two AI against each other 
     + Include step_game to walk through the sequence of steps 
-- 
